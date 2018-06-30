@@ -58,6 +58,26 @@ nav,
 section {
   display: block;
 }
+
+.skip-list {
+  position: absolute;
+  top: -50px;
+  font-size: 10px;
+  left: 0;
+  background: orange;
+  color: white;
+  padding: 8px;
+  z-index: 1001;
+}
+
+.skip-list a:hover, a:focus {
+  color: white;
+}
+
+.skip-list:focus {
+  top: 0;
+}
+
 #maincontent {
   background-color: #f3f3f3;
   min-height: 100%;
