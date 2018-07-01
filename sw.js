@@ -31,7 +31,6 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-    console.log("Req", event.request.url);
     let req = event.request;
     if (req.url.match(/restaurant.html/)) {
         req = new Request(
