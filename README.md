@@ -2,6 +2,11 @@
 ---
 #### _Three Stage Course Material Project - Restaurant Reviews_
 
+## Lighthouse score
+
+![alt lighthouse score](https://github.com/Rohanhacker/mws-restaurant-stage-1/blob/master/img/pwa.png "Lighthouse score")
+
+
 ## Getting started
 
 First steps:
@@ -10,6 +15,12 @@ First steps:
 ```sh
 $ git clone https://github.com/Rohanhacker/mws-restaurant-stage-1
 ```
+**Clone Backend repo:**
+```sh
+$ git clone https://github.com/Rohanhacker/mws-restaurant-stage-2
+```
+
+
 **run yarn:**
 ```sh
 yarn
@@ -21,6 +32,10 @@ gulp images
 **start local server:**
 ```sh
 python3 -m http.server 8000
+```
+**start backend server:**
+```sh
+yarn start
 ```
 
 
