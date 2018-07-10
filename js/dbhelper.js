@@ -360,6 +360,15 @@ class DBHelper {
     });  
   }
 
+  static getLocalRestaurantsDataById(id) {
+    if (!('indexedDB' in window)) {return null;}
+    return DBHelper.openDatabase().then(db => {
+      const tx = db.transaction('review', 'readonly');
+      const store = tx.objectStore('review');
+      return store.get(id);
+    });  
+  }
+
   static saveDataLocally(data) {
     DBHelper.openDatabase()
     .then(function(db) {
@@ -370,8 +379,19 @@ class DBHelper {
       data.forEach(function(res) {
         store.put(res);
       });
-    });  
+    });
   }
+
+  static saveDataLocallyById(data) {
+    DBHelper.openDatabase()
+    .then(function(db) {
+      if (!db) return;  
+      var tx = db.transaction('review', 'readwrite');
+      var store = tx.objectStore('review');
+      store.put(data);
+    });
+  }
+
 
   /**
    * Fetch a restaurant by its ID.
@@ -382,8 +402,13 @@ class DBHelper {
     .then(resp => resp.json())
     .then(resp => {
         callback(null, resp);
+        DBHelper.saveDataLocallyById(resp);
     }).catch(error => {
-      callback(error, null);
+      DBHelper.getLocalRestaurantsDataById(1).then(resp => {
+        callback(null, resp);
+      }).catch(error => {
+        callback(error, null);
+      });
     });
   }
 
