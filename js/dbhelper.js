@@ -404,7 +404,7 @@ class DBHelper {
         callback(null, resp);
         DBHelper.saveDataLocallyById(resp);
     }).catch(error => {
-      DBHelper.getLocalRestaurantsDataById(1).then(resp => {
+      DBHelper.getLocalRestaurantsDataById(id).then(resp => {
         callback(null, resp);
       }).catch(error => {
         callback(error, null);
