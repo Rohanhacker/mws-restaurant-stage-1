@@ -327,9 +327,13 @@ class DBHelper {
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
-  static get DATABASE_URL() {
+  static get HOST_URL() {
     const port = 1337 // Change this to your server port
-    return `http://localhost:${port}/restaurants`;
+    return `http://localhost:${port}`;
+  }
+
+  static get DATABASE_URL() {
+    return `${DBHelper.HOST_URL}/restaurants`;
   }
 
   /**
@@ -392,19 +396,35 @@ class DBHelper {
     });
   }
 
-
   /**
    * Fetch a restaurant by its ID.
    */
   static fetchRestaurantById(id, callback) {
     // fetch all restaurants with proper error handling.
-    fetch(`${DBHelper.DATABASE_URL}/${id}`)
+    return fetch(`${DBHelper.DATABASE_URL}/${id}`)
     .then(resp => resp.json())
     .then(resp => {
         callback(null, resp);
         DBHelper.saveDataLocallyById(resp);
     }).catch(error => {
       DBHelper.getLocalRestaurantsDataById(id).then(resp => {
+        callback(null, resp);
+      }).catch(error => {
+        callback(error, null);
+      });
+    });
+  }
+
+  static fetchRestaurantReviewsById(restaurant, callback) {
+    return fetch(`${DBHelper.HOST_URL}/reviews/?restaurant_id=${restaurant.id}`)
+    .then(resp => resp.json())
+    .then(resp => {
+        const value = {...restaurant, reviews: resp};
+        callback(null, value);
+        DBHelper.saveDataLocallyById(value);
+    }).catch(error => {
+      console.log(error);
+      DBHelper.getLocalRestaurantsDataById(restaurant.id).then(resp => {
         callback(null, resp);
       }).catch(error => {
         callback(error, null);
@@ -422,6 +442,29 @@ class DBHelper {
     }).catch(error => {
       callback(error, null);
     })
+  }
+
+  static submitReview(event, form, restaurant, createReviewHTML) {
+    event.preventDefault();
+    const comments = form.review.value;
+    const name = form.name.value;
+    const rating = parseInt(form.rating.value);
+    const { id } = restaurant;
+    if(!name || !comments) {
+      alert("name or review can not be empty");
+      return;
+    }
+    const review = {
+      restaurant_id: id,
+      name,
+      rating,
+      comments
+    }
+    const ul = document.getElementById('reviews-list');
+    ul.appendChild(createReviewHTML(review));
+    const value = {...restaurant, reviews: review };
+    DBHelper.saveDataLocallyById(value);
+    console.warn(value);
   }
 
   static openDatabase() {

@@ -72,7 +72,17 @@ fetchRestaurantFromURL = (callback) => {
         return;
       }
       fillRestaurantHTML();
-      callback(null, restaurant)
+      callback(null, restaurant);
+    }).then(() => {
+      DBHelper.fetchRestaurantReviewsById(self.restaurant, (error, restaurant) => {
+        if(error) {
+          console.error(error);
+          return;
+        }
+        console.warn(restaurant);
+        self.restaurant = restaurant;
+        this.fillRestaurantHTML();
+      });
     });
   }
 }
@@ -173,17 +183,22 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
   container.appendChild(title);
 
   if (!reviews) {
     const noReviews = document.createElement('p');
+    noReviews.id = "no-reviews";
     noReviews.innerHTML = 'No reviews yet!';
     container.appendChild(noReviews);
     return;
   }
-  const ul = document.getElementById('reviews-list');
+  const ul = document.createElement('ul');
+  ul.setAttribute('id','reviews-list');
   reviews.forEach(review => {
     ul.appendChild(createReviewHTML(review));
   });

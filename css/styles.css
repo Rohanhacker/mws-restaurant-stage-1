@@ -358,6 +358,33 @@ nav h1 a {
   border-radius: 5%;
 }
 
+#form-container {
+  width: 95%;
+  margin: auto;
+  padding: 1.2em;
+}
+
+#review-form {
+  margin: 16px 0;
+}
+
+#text-area {
+  display: block;
+  margin: 12px 0;
+  width: 60%;
+  max-width: 400px;
+  padding: 8px;
+  height: 58px;
+}
+
+#rating-select {
+  background: white;
+}
+
+#review-form button {
+  background: white;
+}
+
 /* Media Queries */
 
 /* ====================== width: 768px ====================== */
@@ -396,7 +423,7 @@ nav h1 a {
     height: calc(100vh - 80px);
     margin-top: 80px;
   }
-  #restaurant-container, #reviews-container {
+  #restaurant-container, #reviews-container, #form-container {
     margin: unset;
     width: 50%;
   }

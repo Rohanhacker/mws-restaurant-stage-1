@@ -52,9 +52,27 @@
     <!-- end restaurant -->
     <!-- Beginning reviews -->
     <section id="reviews-container">
-      <ul id="reviews-list"></ul>
     </section>
     <!-- End reviews -->
+    <div id="form-container">
+      <h3>
+        Review Restaurant
+      </h3>
+      <form id="review-form" onsubmit="DBHelper.submitReview(event,this, self.restaurant, createReviewHTML)">
+        <label for="name">Name: </label>
+        <input type="text" id="name">
+        <label for="rating-select">Rating:</label>
+        <select id="rating-select" name="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <textarea id="text-area" name="review" placeholder="enter your review"></textarea>
+          <button>Submit</button>
+      </form>
+    </div>
   </main>
   <!-- End main -->
 
