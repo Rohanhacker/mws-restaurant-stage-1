@@ -1,3 +1,4 @@
+// &#9734;
 let restaurant;
 var newMap;
 
@@ -96,12 +97,55 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
 
+  // fill fav btn
+  this.fillRestaurantFavoriteHTML();
+
   // fill operating hours
   if (restaurant.operating_hours) {
     fillRestaurantHoursHTML();
   }
   // fill reviews
   fillReviewsHTML();
+}
+
+favoriteRestaurantById = (id, toggle) => {
+  DBHelper.toggleRestaurantFavorite(id, toggle, (error, restaurant) => {
+    if(error) {
+      console.error(error);
+    } else {
+      self.restaurant = restaurant;
+      this.fillRestaurantFavoriteHTML(restaurant.is_favorite, restaurant.id);
+    }
+  })
+}
+
+favoriteBtnEventHandler = (e) => {
+  const type = event.type;
+  const toggle = self.restaurant.is_favorite === "false";
+  if (type === 'keydown') {
+    if (event.keyCode === 13 || event.keyCode === 32) {
+      this.favoriteRestaurantById(self.restaurant.id, toggle);
+      event.preventDefault();
+    }
+  }
+  else if (type === 'click') {
+    this.favoriteRestaurantById(self.restaurant.id, toggle);
+  }
+}
+
+fillRestaurantFavoriteHTML = (is_favorite = self.restaurant.is_favorite, id = self.restaurant.id) => {
+  const btn = document.getElementById('restaurant-fav');
+  btn.addEventListener('click', this.favoriteBtnEventHandler);
+  btn.addEventListener('keydown', this.favoriteBtnEventHandler);
+  if(is_favorite === "true") {
+    btn.innerHTML = '&#9733';
+    btn.title = 'Remove from favorite';
+    btn.setAttribute('aria-label', 'Remove from favorite');
+    return;
+  }
+  btn.innerHTML = '&#9734';
+  btn.title = 'Add to favorite';
+  btn.setAttribute('aria-label', 'Add to favorite');
 }
 
 /**

@@ -412,6 +412,18 @@ class DBHelper {
     });
   }
 
+  static toggleRestaurantFavorite(id, toggle, callback) {
+    fetch(`${DBHelper.DATABASE_URL}/${id}/?is_favorite=${toggle}`, {
+      method: "PUT"
+    }).then(resp => resp.json())
+    .then(resp => {
+      callback(null, resp);
+      DBHelper.saveDataLocallyById(resp);
+    }).catch(error => {
+      callback(error, null);
+    })
+  }
+
   static openDatabase() {
     // If the browser doesn't support service worker,
     // we don't care about having a database
