@@ -17,7 +17,7 @@ $ git clone https://github.com/Rohanhacker/mws-restaurant-stage-1
 ```
 **Clone Backend repo:**
 ```sh
-$ git clone https://github.com/Rohanhacker/mws-restaurant-stage-2
+$ git clone https://github.com/Rohanhacker/mws-restaurant-stage-3
 ```
 
 
@@ -38,6 +38,13 @@ python3 -m http.server 8000
 yarn start
 ```
 
+## Testing background sync on local
+- turn off local wifi
+- turn off local server
+- submit form
+- a sync will be added to queue
+- start the server again
+- turn on the wifi and the request will be replayed
 
 
 ## Project Overview: Stage 1
