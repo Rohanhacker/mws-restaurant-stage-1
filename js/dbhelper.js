@@ -471,7 +471,10 @@ class DBHelper {
       headers: headers,
       body: body
     });
-    console.warn(value);
+    // clear form
+    form.name.value = "";
+    form.review.value = "";
+    form.rating.value = "1";
   }
 
   static openDatabase() {
