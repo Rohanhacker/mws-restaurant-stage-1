@@ -65,7 +65,7 @@ fetchRestaurantFromURL = (callback) => {
     error = 'No restaurant id in URL'
     callback(error, null);
   } else {
-    DBHelper.fetchRestaurantById(id, (error, restaurant) => {
+    DBHelper.fetchRestaurantById(Number(id), (error, restaurant) => {
       self.restaurant = restaurant;
       if (!restaurant) {
         console.error(error);
@@ -73,13 +73,11 @@ fetchRestaurantFromURL = (callback) => {
       }
       fillRestaurantHTML();
       callback(null, restaurant);
-    }).then(() => {
-      DBHelper.fetchRestaurantReviewsById(self.restaurant, (error, restaurant) => {
+      DBHelper.fetchRestaurantReviewsById(restaurant, (error, restaurant) => {
         if(error) {
           console.error(error);
           return;
         }
-        console.warn(restaurant);
         self.restaurant = restaurant;
         this.fillRestaurantHTML();
       });

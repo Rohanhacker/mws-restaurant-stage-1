@@ -462,8 +462,15 @@ class DBHelper {
     }
     const ul = document.getElementById('reviews-list');
     ul.appendChild(createReviewHTML(review));
-    const value = {...restaurant, reviews: review };
+    const value = {...restaurant, reviews: [...restaurant.reviews, review] };
     DBHelper.saveDataLocallyById(value);
+    const headers = new Headers({'Content-Type': 'application/json'});
+    const body = JSON.stringify(review);
+    fetch(`${DBHelper.HOST_URL}/reviews`, {
+      method: 'POST',
+      headers: headers,
+      body: body
+    });
     console.warn(value);
   }
 
